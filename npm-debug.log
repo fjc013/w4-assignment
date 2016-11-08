@@ -1,6 +1,6 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/home/ubuntu/.nvm/versions/node/v4.5.0/bin/node',
-1 verbose cli   '/home/ubuntu/.nvm/versions/node/v4.5.0/bin/npm',
+1 verbose cli [ '/home/frank/.nvm/versions/node/v4.5.0/bin/node',
+1 verbose cli   '/home/frank/.nvm/versions/node/v4.5.0/bin/npm',
 1 verbose cli   'start' ]
 2 info using npm@2.15.9
 3 info using node@v4.5.0
@@ -11,18 +11,18 @@
 8 info rest-server@0.0.0 Failed to exec start script
 9 verbose stack Error: rest-server@0.0.0 start: `node ./bin/www`
 9 verbose stack Exit status 1
-9 verbose stack     at EventEmitter.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.5.0/lib/node_modules/npm/lib/utils/lifecycle.js:217:16)
+9 verbose stack     at EventEmitter.<anonymous> (/home/frank/.nvm/versions/node/v4.5.0/lib/node_modules/npm/lib/utils/lifecycle.js:217:16)
 9 verbose stack     at emitTwo (events.js:87:13)
 9 verbose stack     at EventEmitter.emit (events.js:172:7)
-9 verbose stack     at ChildProcess.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.5.0/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+9 verbose stack     at ChildProcess.<anonymous> (/home/frank/.nvm/versions/node/v4.5.0/lib/node_modules/npm/lib/utils/spawn.js:24:14)
 9 verbose stack     at emitTwo (events.js:87:13)
 9 verbose stack     at ChildProcess.emit (events.js:172:7)
 9 verbose stack     at maybeClose (internal/child_process.js:829:16)
 9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
 10 verbose pkgid rest-server@0.0.0
-11 verbose cwd /home/ubuntu/workspace/week4-mongoose-population
-12 error Linux 4.2.0-c9
-13 error argv "/home/ubuntu/.nvm/versions/node/v4.5.0/bin/node" "/home/ubuntu/.nvm/versions/node/v4.5.0/bin/npm" "start"
+11 verbose cwd /home/frank/coursera/server-side-nodejs/w4-assignment
+12 error Linux 4.4.0-45-generic
+13 error argv "/home/frank/.nvm/versions/node/v4.5.0/bin/node" "/home/frank/.nvm/versions/node/v4.5.0/bin/npm" "start"
 14 error node v4.5.0
 15 error npm  v2.15.9
 16 error code ELIFECYCLE

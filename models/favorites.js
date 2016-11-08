@@ -9,16 +9,18 @@ var Currency = mongoose.Types.Currency;
 
 // create a schema
 var favoriteSchema = new Schema({ 
-    timestamps: true,
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     favoriteDishes: [{
-        type: mongoose.Schema.Types,ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref:'Dishes'
      }]
+}, {
+	timestamps: true
 }); 
+
 /*
 var favoriteSchema = new Schema({ 
     postedBy: {

@@ -13,7 +13,9 @@ var Verify = require('./verify');
 // Require mongoose
 var mongoose = require('mongoose');
 
-var Favorites = require('../models/dishes');
+var Favorites = require('../models/favorites');
+
+// Need to require ../models/Dishes too?
 
 var favoriteRouter = express.Router();
 
@@ -30,15 +32,47 @@ favoriteRouter.route('/')
         res.json(favorite);
     });
 })
+/*
+create operation lifted from 
+https://www.airpair.com/javascript/complete-expressjs-nodejs-mongodb-crud-skeleton
+*/
 
-.post(Verify.verifyOrdinaryUser,Verify.verifyAdmin, function(req, res, next){
-    Dishes.create(req.body, function(err, favorite) {
-        if (err) throw err;
-        console.log("Favorite created!");
-        var id = favorite.id;
-        
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end("Added the favorite with id: " + id);
+.post(Verify.verifyOrdinaryUser, function(req, res) {
+    // Get values from post request
+    var postedBy = req.decoded._doc._id;
+    console.log("postedBy = " + postedBy);
+    var fave = req.body._id;
+    console.log("favoriteDishes = " + fave);
+    // call the create function for our DB
+    Favorites.create( {
+        postedBy : postedBy,
+        favoriteDishes : fave,
+        //{ new : true }
+    }, function(err, favoritedish) {
+        if (err) {
+            res.send("There was a problem in create");
+        } else {
+            // favoriteDish has been created
+            console.log("POST creating new favorite dish: " + fave);
+            res.json(favoritedish);
+        }
     });
 })
-// needs work
+
+/*
+.post(Verify.verifyOrdinaryUser, function (req, res, next) {
+    Favorites.create(req.body, function (err, favorite) {
+        if (err) throw err;
+        favorite.postedBy = req.decoded._doc._id;
+        favorite.favoriteDishes.push(req.body);
+        favorite.save(function (err, favorite) {
+            if (err) throw err;
+            console.log('Updated Favorites!');
+            res.json(favorite);
+        });
+    });
+})
+*/
+
+// fin
+module.exports = favoriteRouter;
