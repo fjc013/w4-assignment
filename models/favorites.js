@@ -13,26 +13,13 @@ var favoriteSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    favoriteDishes: [{
+    favoriteDishes: [{ // Add unique qualifier to this field.
         type: mongoose.Schema.Types.ObjectId, 
-        ref:'Dishes'
+        ref: 'Dish' //must use singular name from mongoose.model('name', schema)
      }]
 }, {
 	timestamps: true
 }); 
-
-/*
-var favoriteSchema = new Schema({ 
-    postedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    favoriteDishes: [{type: mongoose.Schema.Types,ObjectId, ref:'Dishes'}]
-    }, 
-{
-    timestamps: true
-});
-*/
 
 // the schema is useless so far
 // we need to create a model using it

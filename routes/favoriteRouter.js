@@ -14,6 +14,7 @@ var Verify = require('./verify');
 var mongoose = require('mongoose');
 
 var Favorites = require('../models/favorites');
+var Dishes = require('../models/dishes');
 
 // Need to require ../models/Dishes too?
 
@@ -23,8 +24,10 @@ favoriteRouter.use(bodyParser.json());
 
 favoriteRouter.route('/')
 
+// Return list of favorites for this user only
+
 .get(Verify.verifyOrdinaryUser, function(req,res,next) {
-    Favorites.find({})
+    Favorites.find({ postedBy : req.decoded._doc._id })
     .populate('postedBy')
     .populate('favoriteDishes')
     .exec(function (err, favorite) {
@@ -32,47 +35,35 @@ favoriteRouter.route('/')
         res.json(favorite);
     });
 })
-/*
-create operation lifted from 
-https://www.airpair.com/javascript/complete-expressjs-nodejs-mongodb-crud-skeleton
-*/
+
+//findOneAndUpdate
 
 .post(Verify.verifyOrdinaryUser, function(req, res) {
-    // Get values from post request
-    var postedBy = req.decoded._doc._id;
-    console.log("postedBy = " + postedBy);
-    var fave = req.body._id;
-    console.log("favoriteDishes = " + fave);
-    // call the create function for our DB
-    Favorites.create( {
-        postedBy : postedBy,
-        favoriteDishes : fave,
-        //{ new : true }
-    }, function(err, favoritedish) {
+    // Get the id of the poster
+    var queryKey = { postedBy : req.decoded._doc._id};
+    var options = { upsert : true, new : true };
+    console.log("postedBy = " + req.decoded._doc._id);
+    console.log("favoriteDishes = " + req.body._id);
+    /*
+      findOneAndUpdate with option upsert:true creates a document
+      if it doesn't exist. Allows the use of $push.
+    */ 
+    Favorites.findOneAndUpdate( queryKey, {
+        postedBy : req.decoded._doc._id,
+        $push: {favoriteDishes : req.body._id} 
+
+    }, options, function(err, favoritedish) {
         if (err) {
             res.send("There was a problem in create");
+            res.json(favoritedish);
         } else {
             // favoriteDish has been created
-            console.log("POST creating new favorite dish: " + fave);
+            console.log("POST creating new favorite dish");
             res.json(favoritedish);
         }
     });
 })
 
-/*
-.post(Verify.verifyOrdinaryUser, function (req, res, next) {
-    Favorites.create(req.body, function (err, favorite) {
-        if (err) throw err;
-        favorite.postedBy = req.decoded._doc._id;
-        favorite.favoriteDishes.push(req.body);
-        favorite.save(function (err, favorite) {
-            if (err) throw err;
-            console.log('Updated Favorites!');
-            res.json(favorite);
-        });
-    });
-})
-*/
 
 // fin
 module.exports = favoriteRouter;
