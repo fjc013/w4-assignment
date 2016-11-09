@@ -11,6 +11,12 @@
  ```
  > db.users.find().pretty();
 ```
+
+## Remove all documents from a collection
+```
+> db.favorites.remove({});
+```
+
 ## Facebook AppId and App Secret
 
 App ID: 339061263125515
