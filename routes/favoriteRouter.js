@@ -50,7 +50,9 @@ favoriteRouter.route('/')
     */ 
     Favorites.findOneAndUpdate( queryKey, {
         postedBy : req.decoded._doc._id,
-        $push: {favoriteDishes : req.body._id} 
+        //$push: {favoriteDishes : req.body._id} 
+        //$addToSet: ensures unique entries in arrays - silent fail
+        $addToSet: {favoriteDishes : req.body._id} 
 
     }, options, function(err, favoritedish) {
         if (err) {
@@ -64,6 +66,25 @@ favoriteRouter.route('/')
     });
 })
 
+.delete(Verify.verifyOrdinaryUser, function(req, res, next){
+    Favorites.remove({ postedBy : req.decoded._doc._id }, function(err, resp) {
+        if (err) throw err;
+        res.json(resp);
+    })
+});
+
+favoriteRouter.route('/:dishId')
+
+.delete(Verify.verifyOrdinaryUser, function(req, res, next){
+    Favorites.update({ postedBy : req.decoded._doc._id }, 
+        { $pullAll: { favoriteDishes: [req.params.dishId] } }, 
+    {
+        new: true
+    }, function(err, dish) {
+        if (err) throw err;
+        res.json(dish);
+    });
+})
 
 // fin
 module.exports = favoriteRouter;

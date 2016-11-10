@@ -17,7 +17,4 @@
 > db.favorites.remove({});
 ```
 
-## Facebook AppId and App Secret
-
-App ID: 339061263125515
-App Secret: 6c6e8f0d1aaddb775b33fd019ec317f6
+## Facebook AppId and App Secret stashed in Google Drive
