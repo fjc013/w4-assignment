@@ -14,7 +14,6 @@ var Verify = require('./verify');
 var mongoose = require('mongoose');
 
 var Favorites = require('../models/favorites');
-var Dishes = require('../models/dishes');
 
 // Need to require ../models/Dishes too?
 
@@ -49,8 +48,6 @@ favoriteRouter.route('/')
       if it doesn't exist. Allows the use of $push.
     */ 
     Favorites.findOneAndUpdate( queryKey, {
-        postedBy : req.decoded._doc._id,
-        //$push: {favoriteDishes : req.body._id} 
         //$addToSet: ensures unique entries in arrays - silent fail
         $addToSet: {favoriteDishes : req.body._id} 
 
